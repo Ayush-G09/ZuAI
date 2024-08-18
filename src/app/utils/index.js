@@ -1,5 +1,9 @@
-import * as pdfjsLib from "pdfjs-dist/webpack";
-import pako from 'pako';
+import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
+  'pdfjs-dist/build/pdf.worker.min.mjs',
+  import.meta.url,
+).toString();
 
 export async function countWordsInPDF(file) {
   const arrayBuffer = await file.arrayBuffer();
@@ -19,7 +23,7 @@ export async function countWordsInPDF(file) {
 
 export async function extractFirstPageTextFromPDF(file) {
   const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
   const page = await pdf.getPage(1);
   const textContent = await page.getTextContent();
@@ -31,7 +35,7 @@ export async function extractFirstPageTextFromPDF(file) {
 
 export async function getAllPagesAsImages(file) {
   const arrayBuffer = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
   const numPages = pdf.numPages;
   const images = [];
@@ -89,13 +93,3 @@ export function getFormattedDate() {
 
   return `${day < 10 ? "0" + day : day} ${months[monthIndex]} ${year}`;
 }
-
-export const compressData = (data) => {
-  const compressed = pako.gzip(data, { to: 'string' });
-  return compressed;
-};
-
-export const decompressData = (compressed) => {
-  const decompressed = pako.ungzip(compressed, { to: 'string' });
-  return decompressed;
-};

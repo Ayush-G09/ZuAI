@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Card, FileData } from "../types";
-import { compressData, decompressData } from "../utils/index";
 
 const useFileStore = create(
   persist<{
@@ -45,9 +44,6 @@ const useFileStore = create(
     }),
     {
       name: "file-storage",
-      getStorage: () => localStorage,
-      serialize: (state) => compressData(JSON.stringify(state)),
-      deserialize: (str) => JSON.parse(decompressData(str)),
     }
   )
 );
