@@ -1,9 +1,6 @@
 import * as pdfjsLib from "pdfjs-dist/legacy/build/pdf.mjs";
 
-pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url,
-).toString();
+pdfjsLib.GlobalWorkerOptions.workerSrc="https://unpkg.com/pdfjs-dist@4.5.136/legacy/build/pdf.worker.min.mjs"
 
 export async function countWordsInPDF(file) {
   const arrayBuffer = await file.arrayBuffer();
