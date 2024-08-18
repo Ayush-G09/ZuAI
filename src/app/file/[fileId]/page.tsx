@@ -44,7 +44,7 @@ type State = {
   cards: Card[];
 };
 
-function page({ params }: { params: { fileId: string } }) {
+function Page({ params }: { params: { fileId: string } }) {
   const [state, setState] = useState<State>({
     isOpen: true,
     totalPages: 0,
@@ -391,4 +391,4 @@ function page({ params }: { params: { fileId: string } }) {
   );
 }
 
-export default page;
+export default Page;
